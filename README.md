@@ -19,7 +19,7 @@ which accepts POST requests and "swipes right" on the provided user id. The payl
 While `liked_content_id` is the id of a photo of the user, I don't know what `s_number` means. Anyway, both information can be found in the response to the above mentioned GET request.
 
 ## Rust 
-The code is *pretty crappy*, and I'm using this Tinder shit to teach myself Rust the hard way, i.e. actually doing things and face real world problems beyond the classic textbook examples. 
+The code is *pretty crappy*, and I'm using this Tinder shit to teach myself Rust the hard way, i.e. actually doing things and facing real world problems beyond the classic textbook examples. 
 
 ###### Build
 ```
