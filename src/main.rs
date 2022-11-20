@@ -1,6 +1,6 @@
 mod requests;
 use clap::Parser;
-// use colored::Colorize;
+use colored::Colorize;
 use requests::{ get_recommendations, like };
 use serde_json::Value;
 use tokio::time::{ sleep, Duration };
@@ -66,9 +66,14 @@ async fn main() {
                                 let pause_in_hours = (pause_in_millis as f64) / (60.0 * 60.0);
 
                                 println!(
-                                    "Tinder put you on hold until {} UTC. Sleeping for ~{:.0} hours...",
-                                    datetime.unwrap(),
-                                    pause_in_hours
+                                    "{}",
+                                    format!(
+                                        "Tinder put you on hold until {} UTC. Sleeping for ~{:.0} hours...",
+                                        datetime.unwrap(),
+                                        pause_in_hours
+                                    )
+                                        .bold()
+                                        .red()
                                 );
                                 sleep(sleep_time).await;
                             }
