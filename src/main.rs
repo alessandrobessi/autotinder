@@ -76,12 +76,12 @@ async fn main() {
                                 print!("You swiped right on {}!", name);
                             }
                             if v["match"].as_bool().unwrap() == true {
-                                print!("| It's a match!");
+                                print!(" | It's a match!");
                             } else {
-                                print!("| Not yet a match...");
+                                print!(" | Not yet a match...");
                             }
                             println!(
-                                "| {} likes remaining",
+                                " | {} likes remaining",
                                 v["likes_remaining"].as_u64().unwrap()
                             );
                         }
