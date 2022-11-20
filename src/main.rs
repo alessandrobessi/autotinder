@@ -18,7 +18,7 @@ struct Arguments {
 
 #[tokio::main]
 async fn main() {
-    let five_seconds: u64 = 5000;
+    let fifteen_seconds: u64 = 15000;
     let token;
     let args: Arguments = Arguments::parse();
     token = args.token;
@@ -86,7 +86,7 @@ async fn main() {
                             println!("REQUEST ERROR\n{e:?}");
                         }
                     }
-                    sleep(Duration::from_millis(five_seconds)).await;
+                    sleep(Duration::from_millis(fifteen_seconds)).await;
                 }
             }
             Err(e) => println!("REQUEST ERROR\n{e:?}"),
