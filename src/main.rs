@@ -56,18 +56,19 @@ async fn main() {
 
                             if v["likes_remaining"].as_u64().unwrap() == 0 {
                                 let deadline = v["rate_limited_until"].as_i64().unwrap();
-                                let datetime = NaiveDateTime::from_timestamp_opt(
-                                    deadline / 1000,
-                                    0
-                                );
+                                let datetime = NaiveDateTime::from_timestamp_millis(deadline);
                                 let now = Utc::now();
-                                let pause_in_millis: i64 = datetime.unwrap().timestamp() - now.timestamp();
-                                let sleep_time = Duration::from_millis(u64::try_from(pause_in_millis).unwrap() * 1000);
-                                let pause_in_hours = pause_in_millis as f64 / (60.0 * 60.0);
+                                let pause_in_millis: i64 =
+                                    datetime.unwrap().timestamp() - now.timestamp();
+                                let sleep_time = Duration::from_millis(
+                                    u64::try_from(pause_in_millis).unwrap() * 1000
+                                );
+                                let pause_in_hours = (pause_in_millis as f64) / (60.0 * 60.0);
 
                                 println!(
                                     "Tinder put you on hold until {} UTC. Sleeping for ~{:.0} hours...",
-                                    datetime.unwrap(), pause_in_hours
+                                    datetime.unwrap(),
+                                    pause_in_hours
                                 );
                                 sleep(sleep_time).await;
                             }
