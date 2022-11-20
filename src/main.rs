@@ -4,7 +4,7 @@ use clap::Parser;
 use requests::{ get_recommendations, like };
 use serde_json::Value;
 use tokio::time::{ sleep, Duration };
-use chrono::{ NaiveDateTime };
+use chrono::{ NaiveDateTime, Utc };
 
 #[derive(Parser)]
 #[command(name = "autotinder")]
@@ -60,12 +60,16 @@ async fn main() {
                                     deadline / 1000,
                                     0
                                 );
-                                let twelve_hours = Duration::from_millis(1000 * 60 * 60 * 12);
+                                let now = Utc::now();
+                                let pause_in_millis: i64 = datetime.unwrap().timestamp() - now.timestamp();
+                                let sleep_time = Duration::from_millis(u64::try_from(pause_in_millis).unwrap() * 1000);
+                                let pause_in_hours = pause_in_millis as f64 / (60.0 * 60.0);
+
                                 println!(
-                                    "Tinder put you on hold until {} UTC. Sleeping for 12 hours...",
-                                    datetime.unwrap()
+                                    "Tinder put you on hold until {} UTC. Sleeping for ~{:.0} hours...",
+                                    datetime.unwrap(), pause_in_hours
                                 );
-                                sleep(twelve_hours).await;
+                                sleep(sleep_time).await;
                             }
 
                             if v["status"].as_u64().unwrap() == 200 {
