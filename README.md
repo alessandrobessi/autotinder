@@ -29,7 +29,7 @@ While `liked_content_id` is the id of a photo of the user, I don't know what `s_
 }
 ```
 - https://api.gotinder.com/v2/my-likes
-- 
+- https://api.gotinder.com/pass/{user_id}?s_number={s_number}
 
 
 ## Rust 

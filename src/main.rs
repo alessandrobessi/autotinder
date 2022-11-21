@@ -18,10 +18,12 @@ struct Arguments {
 
 #[tokio::main]
 async fn main() {
-    let fifteen_seconds: u64 = 15000;
+    let sixty_seconds: u64 = 60 * 1000;
     let token: String;
     let args: Arguments = Arguments::parse();
     token = args.token;
+    let mut liked_count: u64 = 0;
+
     loop {
         let response: Result<String, reqwest::Error> = get_recommendations(&token).await;
         match response {
@@ -64,13 +66,27 @@ async fn main() {
                                 println!(
                                     "{}",
                                     format!(
-                                        "Tinder put you on hold until {} UTC. Sleeping for ~{:.0} hours...",
+                                        "Tinder put you on hold until {} UTC. Sleeping for ~{:.0} hours...😴",
                                         datetime.unwrap(),
                                         pause_in_hours
                                     )
                                         .bold()
                                         .red()
                                 );
+
+                                if liked_count > 0 {
+                                    println!(
+                                        "{}",
+                                        format!(
+                                            "In this session you swiped right on {} girls ✌",
+                                            liked_count
+                                        )
+                                        .bold()
+                                        .green()
+                                    );
+                                    liked_count = 0;
+                                }
+
                                 sleep(sleep_time).await;
                             }
 
@@ -92,7 +108,8 @@ async fn main() {
                             println!("REQUEST ERROR\n{e:?}");
                         }
                     }
-                    sleep(Duration::from_millis(fifteen_seconds)).await;
+                    liked_count += 1;
+                    sleep(Duration::from_millis(sixty_seconds)).await;
                 }
             }
             Err(e) => println!("REQUEST ERROR\n{e:?}"),
