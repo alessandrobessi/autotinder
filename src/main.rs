@@ -105,14 +105,15 @@ async fn main() {
                         }
 
                         Err(e) => {
-                            println!("REQUEST ERROR\n{e:?}");
+                            panic!("REQUEST ERROR\n{e:?}");
+
                         }
                     }
                     liked_count += 1;
                     sleep(Duration::from_millis(sixty_seconds)).await;
                 }
             }
-            Err(e) => println!("REQUEST ERROR\n{e:?}"),
+            Err(e) => panic!("REQUEST ERROR\n{e:?}"),
         }
     }
 }
